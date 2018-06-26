@@ -22,7 +22,7 @@ class TesseractConan(ConanFile):
         "fPIC": [True, False],
         "with_training": [True, False]
     }
-    default_options = "shared=False", "fPIC=True", "with_training=False"
+    default_options = "shared=True", "fPIC=True", "with_training=False"
     source_subfolder = "source_subfolder"
 
     requires = "leptonica/1.76.0@bincrafters/stable"
@@ -37,6 +37,9 @@ class TesseractConan(ConanFile):
             os.path.join(self.source_subfolder, "CMakeListsOriginal.txt"))
         shutil.copy("CMakeLists.txt",
                     os.path.join(self.source_subfolder, "CMakeLists.txt"))
+
+    def configure(self):
+        self.options["leptonica"].shared = True
 
     def config_options(self):
         if self.settings.os == "Windows":
